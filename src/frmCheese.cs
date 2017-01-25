@@ -41,7 +41,7 @@ namespace SirCheese {
 
 			foreach (var item in cond)
 				sql += (item.Key == cond.First().Key ? " WHERE " : " AND ") +
-						item.Key + "LIKE \"%" + item.Value + "%\"";
+						item.Key + " LIKE \"%" + item.Value + "%\"";
 
 			using (SQLiteConnection conn = new SQLiteConnection(db)) 
 			using (SQLiteDataAdapter da = new SQLiteDataAdapter(sql, conn))
