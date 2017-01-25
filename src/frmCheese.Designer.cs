@@ -79,7 +79,7 @@
 			this.tblAll.RowCount = 2;
 			this.tblAll.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.56731F));
 			this.tblAll.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.43269F));
-			this.tblAll.Size = new System.Drawing.Size(736, 464);
+			this.tblAll.Size = new System.Drawing.Size(736, 463);
 			this.tblAll.TabIndex = 0;
 			// 
 			// tblUpper
@@ -97,7 +97,7 @@
 			this.tblUpper.Name = "tblUpper";
 			this.tblUpper.RowCount = 1;
 			this.tblUpper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tblUpper.Size = new System.Drawing.Size(736, 253);
+			this.tblUpper.Size = new System.Drawing.Size(736, 252);
 			this.tblUpper.TabIndex = 13;
 			// 
 			// tblDetail
@@ -116,7 +116,7 @@
 			this.tblDetail.RowCount = 1;
 			this.tblDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tblDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tblDetail.Size = new System.Drawing.Size(438, 253);
+			this.tblDetail.Size = new System.Drawing.Size(438, 252);
 			this.tblDetail.TabIndex = 14;
 			// 
 			// pnlImage
@@ -130,7 +130,7 @@
 			this.pnlImage.Location = new System.Drawing.Point(0, 0);
 			this.pnlImage.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlImage.Name = "pnlImage";
-			this.pnlImage.Size = new System.Drawing.Size(219, 253);
+			this.pnlImage.Size = new System.Drawing.Size(219, 252);
 			this.pnlImage.TabIndex = 1;
 			// 
 			// btnBrowse
@@ -149,9 +149,9 @@
 			// 
 			this.txtBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBrowse.Location = new System.Drawing.Point(4, 6);
+			this.txtBrowse.Location = new System.Drawing.Point(0, 6);
 			this.txtBrowse.Name = "txtBrowse";
-			this.txtBrowse.Size = new System.Drawing.Size(179, 20);
+			this.txtBrowse.Size = new System.Drawing.Size(183, 20);
 			this.txtBrowse.TabIndex = 1;
 			// 
 			// pbxDetail
@@ -159,9 +159,9 @@
 			this.pbxDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbxDetail.Location = new System.Drawing.Point(4, 31);
+			this.pbxDetail.Location = new System.Drawing.Point(0, 31);
 			this.pbxDetail.Name = "pbxDetail";
-			this.pbxDetail.Size = new System.Drawing.Size(215, 219);
+			this.pbxDetail.Size = new System.Drawing.Size(216, 218);
 			this.pbxDetail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbxDetail.TabIndex = 12;
 			this.pbxDetail.TabStop = false;
@@ -175,7 +175,7 @@
 			this.pnlPair.Location = new System.Drawing.Point(219, 0);
 			this.pnlPair.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlPair.Name = "pnlPair";
-			this.pnlPair.Size = new System.Drawing.Size(219, 253);
+			this.pnlPair.Size = new System.Drawing.Size(219, 252);
 			this.pnlPair.TabIndex = 0;
 			// 
 			// txtDetail
@@ -184,10 +184,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDetail.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtDetail.Location = new System.Drawing.Point(3, 3);
+			this.txtDetail.Location = new System.Drawing.Point(0, 4);
 			this.txtDetail.Name = "txtDetail";
-			this.txtDetail.Size = new System.Drawing.Size(216, 247);
-			this.txtDetail.TabIndex = 1;
+			this.txtDetail.Size = new System.Drawing.Size(219, 245);
+			this.txtDetail.TabIndex = 0;
 			this.txtDetail.Text = "";
 			// 
 			// pnlSearch
@@ -212,7 +212,7 @@
 			this.pnlSearch.Location = new System.Drawing.Point(0, 0);
 			this.pnlSearch.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlSearch.Name = "pnlSearch";
-			this.pnlSearch.Size = new System.Drawing.Size(298, 253);
+			this.pnlSearch.Size = new System.Drawing.Size(298, 252);
 			this.pnlSearch.TabIndex = 0;
 			// 
 			// lblID
@@ -230,7 +230,7 @@
 			this.txtID.Location = new System.Drawing.Point(80, 6);
 			this.txtID.Name = "txtID";
 			this.txtID.Size = new System.Drawing.Size(182, 20);
-			this.txtID.TabIndex = 23;
+			this.txtID.TabIndex = 0;
 			this.txtID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAny_KeyDown);
 			// 
 			// lblName
@@ -298,7 +298,7 @@
 			this.txtName.Location = new System.Drawing.Point(80, 38);
 			this.txtName.Name = "txtName";
 			this.txtName.Size = new System.Drawing.Size(182, 20);
-			this.txtName.TabIndex = 0;
+			this.txtName.TabIndex = 1;
 			this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAny_KeyDown);
 			// 
 			// txtType
@@ -306,7 +306,7 @@
 			this.txtType.Location = new System.Drawing.Point(80, 70);
 			this.txtType.Name = "txtType";
 			this.txtType.Size = new System.Drawing.Size(182, 20);
-			this.txtType.TabIndex = 1;
+			this.txtType.TabIndex = 2;
 			this.txtType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAny_KeyDown);
 			// 
 			// txtRegion
@@ -343,7 +343,7 @@
 			// 
 			// btnSearch
 			// 
-			this.btnSearch.Location = new System.Drawing.Point(0, 228);
+			this.btnSearch.Location = new System.Drawing.Point(0, 227);
 			this.btnSearch.Name = "btnSearch";
 			this.btnSearch.Size = new System.Drawing.Size(75, 23);
 			this.btnSearch.TabIndex = 7;
@@ -354,7 +354,7 @@
 			// btnCommit
 			// 
 			this.btnCommit.Enabled = false;
-			this.btnCommit.Location = new System.Drawing.Point(187, 228);
+			this.btnCommit.Location = new System.Drawing.Point(187, 227);
 			this.btnCommit.Name = "btnCommit";
 			this.btnCommit.Size = new System.Drawing.Size(75, 23);
 			this.btnCommit.TabIndex = 8;
@@ -368,7 +368,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlResults.Controls.Add(this.grdCheese);
-			this.pnlResults.Location = new System.Drawing.Point(0, 253);
+			this.pnlResults.Location = new System.Drawing.Point(0, 252);
 			this.pnlResults.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlResults.Name = "pnlResults";
 			this.pnlResults.Size = new System.Drawing.Size(736, 211);
@@ -404,9 +404,9 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(754, 482);
+			this.ClientSize = new System.Drawing.Size(754, 481);
 			this.Controls.Add(this.tblAll);
-			this.MinimumSize = new System.Drawing.Size(680, 521);
+			this.MinimumSize = new System.Drawing.Size(685, 520);
 			this.Name = "frmCheese";
 			this.Text = "SirCheese";
 			this.tblAll.ResumeLayout(false);
