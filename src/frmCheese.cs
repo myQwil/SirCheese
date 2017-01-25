@@ -29,6 +29,7 @@ namespace SirCheese {
 		}
 
 		private void SearchCheese() {
+			ClearDetail();
 			string sql = "SELECT ID, Cheese.* FROM Cheese";
 			Regex rgx = new Regex(@"[^\w\d\-,' ]");
 			Dictionary<string, string> cond = new Dictionary<string, string>();
