@@ -37,11 +37,11 @@ namespace SirCheese {
 			{ txtID, txtName, txtType, txtRegion, txtRind, txtTaste, txtPair };
 
 			foreach (TextBox tb in texts)
-			{ if (tb.Text != "") cond.Add(tb.Name.Substring(3), rgx.Replace(tb.Text, "")); }
+				if (tb.Text != "") cond.Add(tb.Name.Substring(3), rgx.Replace(tb.Text, ""));
 
 			foreach (var item in cond)
-			{	sql += (item.Key == cond.First().Key) ? " WHERE " : " AND ";
-				sql += item.Key + " LIKE \"%" + item.Value + "%\"";   }
+				sql += (item.Key == cond.First().Key ? " WHERE " : " AND ") +
+						item.Key + "LIKE \"%" + item.Value + "%\"";
 
 			using (SQLiteConnection conn = new SQLiteConnection(db)) 
 			using (SQLiteDataAdapter da = new SQLiteDataAdapter(sql, conn))
@@ -88,11 +88,11 @@ namespace SirCheese {
 		}
 
 		private void DeleteCheese() {
-			string sql = "DELETE FROM Cheese WHERE ID = @old";
+			string sql = "DELETE FROM Cheese WHERE ID = @id";
 			using (SQLiteConnection conn = new SQLiteConnection(db))
 			using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
 			{	conn.Open();
-				cmd.Parameters.AddWithValue("@old", grdCheese.Rows[row].Cells[1].Value);
+				cmd.Parameters.AddWithValue("@id", grdCheese.Rows[row].Cells[1].Value);
 				cmd.ExecuteNonQuery();   }
 		}
 

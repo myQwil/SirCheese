@@ -159,9 +159,9 @@
 			this.pbxDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbxDetail.Location = new System.Drawing.Point(0, 31);
+			this.pbxDetail.Location = new System.Drawing.Point(4, 31);
 			this.pbxDetail.Name = "pbxDetail";
-			this.pbxDetail.Size = new System.Drawing.Size(219, 219);
+			this.pbxDetail.Size = new System.Drawing.Size(215, 219);
 			this.pbxDetail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbxDetail.TabIndex = 12;
 			this.pbxDetail.TabStop = false;
