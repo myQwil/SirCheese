@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SirCheese.Properties;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -16,8 +18,6 @@ namespace SirCheese {
 		string db = "Data Source=McGuire.db";
 		int row = -1;
 
-		private bool canCommit() { return (grdCheese.Rows[row].Cells[0].Value != DBNull.Value); }
-
 		private void btnSearch_Click(object sender, EventArgs e) {
 			SearchCheese();
 		}
@@ -31,7 +31,7 @@ namespace SirCheese {
 		private void SearchCheese() {
 			ClearDetail();
 			string sql = "SELECT ID, Cheese.* FROM Cheese";
-			Regex rgx = new Regex(@"[^\w\d\-,' ]");
+			Regex rgx = new Regex(@"[^\w\d\-()!$,' ]");
 			Dictionary<string, string> cond = new Dictionary<string, string>();
 			List<TextBox> texts = new List<TextBox>()
 			{ txtID, txtName, txtType, txtRegion, txtRind, txtTaste, txtPair };
@@ -47,12 +47,17 @@ namespace SirCheese {
 			using (SQLiteDataAdapter da = new SQLiteDataAdapter(sql, conn))
 			{	DataTable dt = new DataTable();
 				da.Fill(dt);
+				grdCheese.SelectionChanged -= grdCheese_SelectionChanged;
+				grdCheese.CellValidating -= grdCheese_CellValidating;
 				grdCheese.DataSource = dt;
+				grdCheese.ClearSelection();
+				grdCheese.SelectionChanged += grdCheese_SelectionChanged;
+				grdCheese.CellValidating += grdCheese_CellValidating;
 				grdCheese.Columns[1].Visible = false;
 				grdCheese.Columns[7].Visible = false;
 				grdCheese.Columns[8].Visible = false;   }
 			if (grdCheese.CurrentRow != null)
-			{	row = grdCheese.CurrentRow.Index;
+			{	row = 0;
 				btnCommit.Enabled = true;
 				ShowDetail();   }
 			else btnCommit.Enabled = false;
@@ -61,9 +66,9 @@ namespace SirCheese {
 		private void UpdateCheese() {
 			string sql = "SELECT ID FROM Cheese WHERE ID = @old";
 			using (SQLiteConnection conn = new SQLiteConnection(db))
-			using (SQLiteCommand cmd = new SQLiteCommand(sql, conn)) {
-				conn.Open();
-				cmd.Parameters.AddWithValue("@old", grdCheese.Rows[row].Cells[1].Value);
+			using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+			{	conn.Open();
+				cmd.Parameters.AddWithValue("@old", grdCheese.CurrentRow.Cells[1].Value);
 				var val = cmd.ExecuteScalar();
 				cmd.CommandText = (val != null) ?
 					"UPDATE Cheese SET ID = @new, Name = @name, Type = @type, " +
@@ -73,18 +78,17 @@ namespace SirCheese {
 				  : "INSERT INTO Cheese VALUES " +
 					"(@new, @name, @type, @region, @rind, @taste, @image, @pair)";
 
-				cmd.Parameters.AddWithValue("@new", grdCheese.Rows[row].Cells[0].Value);
-				cmd.Parameters.AddWithValue("@name", grdCheese.Rows[row].Cells[2].Value);
-				cmd.Parameters.AddWithValue("@type", grdCheese.Rows[row].Cells[3].Value);
-				cmd.Parameters.AddWithValue("@region", grdCheese.Rows[row].Cells[4].Value);
-				cmd.Parameters.AddWithValue("@rind", grdCheese.Rows[row].Cells[5].Value);
-				cmd.Parameters.AddWithValue("@taste", grdCheese.Rows[row].Cells[6].Value);
+				cmd.Parameters.AddWithValue("@new", grdCheese.CurrentRow.Cells[0].Value);
+				cmd.Parameters.AddWithValue("@name", grdCheese.CurrentRow.Cells[2].Value);
+				cmd.Parameters.AddWithValue("@type", grdCheese.CurrentRow.Cells[3].Value);
+				cmd.Parameters.AddWithValue("@region", grdCheese.CurrentRow.Cells[4].Value);
+				cmd.Parameters.AddWithValue("@rind", grdCheese.CurrentRow.Cells[5].Value);
+				cmd.Parameters.AddWithValue("@taste", grdCheese.CurrentRow.Cells[6].Value);
 				cmd.Parameters.AddWithValue("@image", txtBrowse.Text);
 				cmd.Parameters.AddWithValue("@pair", txtDetail.Text);
-				cmd.ExecuteNonQuery();
-			}
-			grdCheese.Rows[row].Cells[7].Value = txtBrowse.Text;
-			grdCheese.Rows[row].Cells[8].Value = txtDetail.Text;
+				cmd.ExecuteNonQuery();   }
+			grdCheese.CurrentRow.Cells[7].Value = txtBrowse.Text;
+			grdCheese.CurrentRow.Cells[8].Value = txtDetail.Text;
 		}
 
 		private void DeleteCheese() {
@@ -92,22 +96,40 @@ namespace SirCheese {
 			using (SQLiteConnection conn = new SQLiteConnection(db))
 			using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
 			{	conn.Open();
-				cmd.Parameters.AddWithValue("@id", grdCheese.Rows[row].Cells[1].Value);
+				cmd.Parameters.AddWithValue("@id", grdCheese.CurrentRow.Cells[1].Value);
 				cmd.ExecuteNonQuery();   }
 		}
 
 		private void ShowDetail() {
-			string img = grdCheese.Rows[row].Cells[7].Value.ToString();
-			string pair = grdCheese.Rows[row].Cells[8].Value.ToString();
-			pbxDetail.ImageLocation = img;
+			string img = grdCheese.CurrentRow.Cells[7].Value.ToString();
+			string pair = grdCheese.CurrentRow.Cells[8].Value.ToString();
+			ChangeImage(img);
 			txtBrowse.Text = img;
 			txtDetail.Text = pair;
 		}
 
 		private void ClearDetail() {
-			pbxDetail.Image = null;
+			ChangeImage("");
 			txtBrowse.Text = null;
 			txtDetail.Text = null;
+		}
+
+		private void ChangeImage(string img) {
+			if (pBox.Image != null) pBox.Image.Dispose();
+			pBox.Image = (img != "") ? Image.FromFile(img) : null;
+		}
+
+		private void btnBrowse_Click(object sender, EventArgs e) {
+			if (grdCheese.RowCount > 0)
+			{	int i = txtBrowse.Text.IndexOf('/');
+				if (i>0) opnImage.InitialDirectory = home + txtBrowse.Text.Substring(0, i)+"\\";
+				if (opnImage.ShowDialog() == DialogResult.OK)
+				{	string img = Regex.Replace(opnImage.FileName.Replace("\\", "/"),
+						home.Replace("\\", "/"), "", RegexOptions.IgnoreCase);
+					txtBrowse.Text = img;
+					grdCheese.Rows[(grdCheese.CurrentRow != null ? row : 0)]
+						.Cells[7].Value = img;
+					ChangeImage(img);   }   }
 		}
 
 		private void btnCommit_Click(object sender, EventArgs e) {
@@ -116,60 +138,11 @@ namespace SirCheese {
 			if (confirm == DialogResult.OK) UpdateCheese();
 		}
 
-		private void btnBrowse_Click(object sender, EventArgs e) {
-			if (grdCheese.CurrentCell != null)
-			{	int i = txtBrowse.Text.IndexOf('/');
-				if (i>0) opnImage.InitialDirectory = home + txtBrowse.Text.Substring(0, i)+"\\";
-				if (opnImage.ShowDialog() == DialogResult.OK)
-				{	string img = Regex.Replace(opnImage.FileName.Replace("\\", "/"),
-						home.Replace("\\", "/"), "", RegexOptions.IgnoreCase);
-					txtBrowse.Text = img;
-					pbxDetail.ImageLocation = img;   }   }
-		}
-
 		private void grdCheese_SelectionChanged(object sender, EventArgs e) {
 			if (grdCheese.CurrentRow != null && row != grdCheese.CurrentRow.Index)
 			{	row = grdCheese.CurrentRow.Index;
-				btnCommit.Enabled = canCommit();
+				btnCommit.Enabled = (grdCheese.CurrentRow.Cells[0].Value != DBNull.Value);
 				ShowDetail();   }
-		}
-
-		private void grdCheese_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-			grdCheese.ClearSelection();
-		}
-
-		private void grdCheese_DataError(object sender, DataGridViewDataErrorEventArgs e) {
-			grdCheese.CancelEdit();
-		}
-
-		private void grdCheese_Sorted(object sender, EventArgs e) {
-			row = grdCheese.CurrentRow.Index;
-			if (row != grdCheese.NewRowIndex) ShowDetail();
-		}
-
-		private void grdCheese_UserDeletedRow(object sender, DataGridViewRowEventArgs e) {
-			row = grdCheese.CurrentRow.Index;
-			if (row != grdCheese.NewRowIndex) ShowDetail();
-		}
-
-		private void grdCheese_CellValidating(object sender, DataGridViewCellValidatingEventArgs e) {
-			if (grdCheese.Rows[e.RowIndex].IsNewRow) { return; }
-			if (e.ColumnIndex == 0) {
-				if (Regex.IsMatch((string)e.FormattedValue, @"^\d+$"))
-				{	string sql = "SELECT ID FROM Cheese WHERE ID = @id";
-					using (SQLiteConnection conn = new SQLiteConnection(db))
-					using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
-					{	conn.Open();
-						cmd.Parameters.AddWithValue("@id", e.FormattedValue);
-						var val = cmd.ExecuteScalar();
-						if (val != null)
-						{	if (grdCheese.Rows[e.RowIndex].Cells[1].Value == DBNull.Value
-							 || (long)val != (long)grdCheese.Rows[e.RowIndex].Cells[1].Value)
-								grdCheese.CancelEdit();
-							else btnCommit.Enabled = true;   }
-						else btnCommit.Enabled = true;   }   }
-				else if ((string)e.FormattedValue == "") btnCommit.Enabled = false;
-			}
 		}
 
 		private void grdCheese_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
@@ -178,5 +151,53 @@ namespace SirCheese {
 			if (confirm == DialogResult.OK) DeleteCheese();
 			else e.Cancel = true;
 		}
-	}
-}
+
+		private void grdCheese_UserDeletedRow(object sender, DataGridViewRowEventArgs e) {
+			if (grdCheese.CurrentRow.Index != grdCheese.NewRowIndex) ShowDetail();
+		}
+
+		private void grdCheese_Sorted(object sender, EventArgs e) {
+			if (grdCheese.CurrentRow.Index != grdCheese.NewRowIndex) ShowDetail();
+		}
+
+		private void grdCheese_DataError(object sender, DataGridViewDataErrorEventArgs e) {
+			grdCheese.CancelEdit();
+		}
+
+		private void grdCheese_CellValidating(object sender, DataGridViewCellValidatingEventArgs e) {
+			if (grdCheese.CurrentRow.IsNewRow || grdCheese.SelectedCells.Count==0) { return; }
+			if (e.ColumnIndex == 0)
+			{	if (Regex.IsMatch((string)e.FormattedValue, @"^\d+$"))
+				{	string sql = "SELECT ID FROM Cheese WHERE ID = @id";
+					using (SQLiteConnection conn = new SQLiteConnection(db))
+					using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+					{	conn.Open();
+						cmd.Parameters.AddWithValue("@id", e.FormattedValue);
+						var val = cmd.ExecuteScalar();
+						if (val != null)
+						{	if (grdCheese.CurrentRow.Cells[1].Value == DBNull.Value
+							 || (long)val != (long)grdCheese.CurrentRow.Cells[1].Value)
+								grdCheese.CancelEdit();
+							else btnCommit.Enabled = true;   }
+						else btnCommit.Enabled = true;   }   }
+				else if ((string)e.FormattedValue == "") btnCommit.Enabled = false;   }
+		}
+
+		private void txtDetail_Leave(object sender, EventArgs e) {
+			if (grdCheese.RowCount > 0)
+				grdCheese.Rows[(grdCheese.CurrentRow != null ? row : 0)]
+					.Cells[8].Value = txtDetail.Text;
+		}
+
+		private void frmCheese_Load(object sender, EventArgs e) {
+			if (Settings.Default.WindowLocation != null)
+				this.Location = Settings.Default.WindowLocation;
+		}
+
+		private void frmCheese_FormClosing(object sender, FormClosingEventArgs e) {
+			Settings.Default.WindowLocation = this.Location;
+			Settings.Default.Save();
+		}
+
+	} // class
+} // namespace

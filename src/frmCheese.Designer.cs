@@ -29,7 +29,7 @@
 			this.pnlImage = new System.Windows.Forms.Panel();
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.txtBrowse = new System.Windows.Forms.TextBox();
-			this.pbxDetail = new System.Windows.Forms.PictureBox();
+			this.pBox = new System.Windows.Forms.PictureBox();
 			this.pnlPair = new System.Windows.Forms.Panel();
 			this.txtDetail = new System.Windows.Forms.RichTextBox();
 			this.pnlSearch = new System.Windows.Forms.Panel();
@@ -56,7 +56,7 @@
 			this.tblUpper.SuspendLayout();
 			this.tblDetail.SuspendLayout();
 			this.pnlImage.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbxDetail)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pBox)).BeginInit();
 			this.pnlPair.SuspendLayout();
 			this.pnlSearch.SuspendLayout();
 			this.pnlResults.SuspendLayout();
@@ -126,7 +126,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlImage.Controls.Add(this.btnBrowse);
 			this.pnlImage.Controls.Add(this.txtBrowse);
-			this.pnlImage.Controls.Add(this.pbxDetail);
+			this.pnlImage.Controls.Add(this.pBox);
 			this.pnlImage.Location = new System.Drawing.Point(0, 0);
 			this.pnlImage.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlImage.Name = "pnlImage";
@@ -151,20 +151,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtBrowse.Location = new System.Drawing.Point(0, 6);
 			this.txtBrowse.Name = "txtBrowse";
+			this.txtBrowse.ReadOnly = true;
 			this.txtBrowse.Size = new System.Drawing.Size(183, 20);
 			this.txtBrowse.TabIndex = 1;
 			// 
-			// pbxDetail
+			// pBox
 			// 
-			this.pbxDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.pBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbxDetail.Location = new System.Drawing.Point(0, 31);
-			this.pbxDetail.Name = "pbxDetail";
-			this.pbxDetail.Size = new System.Drawing.Size(216, 218);
-			this.pbxDetail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.pbxDetail.TabIndex = 12;
-			this.pbxDetail.TabStop = false;
+			this.pBox.Location = new System.Drawing.Point(0, 31);
+			this.pBox.Name = "pBox";
+			this.pBox.Size = new System.Drawing.Size(216, 218);
+			this.pBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pBox.TabIndex = 12;
+			this.pBox.TabStop = false;
 			// 
 			// pnlPair
 			// 
@@ -189,6 +190,7 @@
 			this.txtDetail.Size = new System.Drawing.Size(219, 245);
 			this.txtDetail.TabIndex = 0;
 			this.txtDetail.Text = "";
+			this.txtDetail.Leave += new System.EventHandler(this.txtDetail_Leave);
 			// 
 			// pnlSearch
 			// 
@@ -388,7 +390,6 @@
 			this.grdCheese.Size = new System.Drawing.Size(736, 211);
 			this.grdCheese.TabIndex = 0;
 			this.grdCheese.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grdCheese_CellValidating);
-			this.grdCheese.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.grdCheese_DataBindingComplete);
 			this.grdCheese.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.grdCheese_DataError);
 			this.grdCheese.SelectionChanged += new System.EventHandler(this.grdCheese_SelectionChanged);
 			this.grdCheese.Sorted += new System.EventHandler(this.grdCheese_Sorted);
@@ -409,12 +410,14 @@
 			this.MinimumSize = new System.Drawing.Size(685, 520);
 			this.Name = "frmCheese";
 			this.Text = "SirCheese";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCheese_FormClosing);
+			this.Load += new System.EventHandler(this.frmCheese_Load);
 			this.tblAll.ResumeLayout(false);
 			this.tblUpper.ResumeLayout(false);
 			this.tblDetail.ResumeLayout(false);
 			this.pnlImage.ResumeLayout(false);
 			this.pnlImage.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbxDetail)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pBox)).EndInit();
 			this.pnlPair.ResumeLayout(false);
 			this.pnlSearch.ResumeLayout(false);
 			this.pnlSearch.PerformLayout();
@@ -448,7 +451,7 @@
 		private System.Windows.Forms.Panel pnlImage;
 		private System.Windows.Forms.Button btnBrowse;
 		private System.Windows.Forms.TextBox txtBrowse;
-		private System.Windows.Forms.PictureBox pbxDetail;
+		private System.Windows.Forms.PictureBox pBox;
 		private System.Windows.Forms.Panel pnlPair;
 		private System.Windows.Forms.RichTextBox txtDetail;
 		private System.Windows.Forms.OpenFileDialog opnImage;
