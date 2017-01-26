@@ -16,7 +16,7 @@ namespace SirCheese {
 
 		string home = AppDomain.CurrentDomain.BaseDirectory;
 		string db = "Data Source=McGuire.db";
-		int row = -1;
+		int row;
 
 		private void btnSearch_Click(object sender, EventArgs e) {
 			SearchCheese();
@@ -56,9 +56,9 @@ namespace SirCheese {
 				grdCheese.Columns[1].Visible = false;
 				grdCheese.Columns[7].Visible = false;
 				grdCheese.Columns[8].Visible = false;   }
+			row = 0;
 			if (grdCheese.CurrentRow != null)
-			{	row = 0;
-				btnCommit.Enabled = true;
+			{	btnCommit.Enabled = true;
 				ShowDetail();   }
 			else btnCommit.Enabled = false;
 		}
