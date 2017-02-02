@@ -6,12 +6,14 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SirCheese {
 	public partial class frmCheese : Form {
 		public frmCheese() {
 			InitializeComponent();
+			Thread.Sleep(2000);
 		}
 
 		string home = AppDomain.CurrentDomain.BaseDirectory;
@@ -31,7 +33,7 @@ namespace SirCheese {
 		private void SearchCheese() {
 			ClearDetail();
 			string sql = "SELECT ID, Cheese.* FROM Cheese";
-			Regex rgx = new Regex(@"[^\w\d\-()!$,' ]");
+			Regex rgx = new Regex(@"[^\w\d\-()!&$,' ]");
 			Dictionary<string, string> cond = new Dictionary<string, string>();
 			List<TextBox> texts = new List<TextBox>()
 			{ txtID, txtName, txtType, txtRegion, txtRind, txtTaste, txtPair };
