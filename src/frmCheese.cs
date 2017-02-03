@@ -89,6 +89,7 @@ namespace SirCheese {
 				cmd.Parameters.AddWithValue("@image", txtBrowse.Text);
 				cmd.Parameters.AddWithValue("@pair", txtDetail.Text);
 				cmd.ExecuteNonQuery();   }
+			grdCheese.CurrentRow.Cells[1].Value = grdCheese.CurrentRow.Cells[0].Value;
 			grdCheese.CurrentRow.Cells[7].Value = txtBrowse.Text;
 			grdCheese.CurrentRow.Cells[8].Value = txtDetail.Text;
 		}
