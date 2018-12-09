@@ -16,6 +16,17 @@ namespace SirCheese {
 			Thread.Sleep(2000);
 		}
 
+		private void frmCheese_Load(object sender, EventArgs e) {
+			if (Settings.Default.WindowLocation != null)
+				Location = Settings.Default.WindowLocation;
+			Activate();
+		}
+
+		private void frmCheese_FormClosing(object sender, FormClosingEventArgs e) {
+			Settings.Default.WindowLocation = Location;
+			Settings.Default.Save();
+		}
+
 		string home = AppDomain.CurrentDomain.BaseDirectory;
 		string db = "Data Source=McGuire.db";
 		int row;
@@ -57,7 +68,9 @@ namespace SirCheese {
 				grdCheese.CellValidating += grdCheese_CellValidating;
 				grdCheese.Columns[1].Visible = false;
 				grdCheese.Columns[7].Visible = false;
-				grdCheese.Columns[8].Visible = false;   }
+				grdCheese.Columns[8].Visible = false;
+				grdCheese.Columns["Taste"].AutoSizeMode =
+					DataGridViewAutoSizeColumnMode.Fill;   }
 			row = 0;
 			if (grdCheese.CurrentRow != null)
 			{	btnCommit.Enabled = true;
@@ -141,6 +154,12 @@ namespace SirCheese {
 			if (confirm == DialogResult.OK) UpdateCheese();
 		}
 
+		private void txtDetail_Leave(object sender, EventArgs e) {
+			if (grdCheese.RowCount > 0)
+				grdCheese.Rows[(grdCheese.CurrentRow != null ? row : 0)]
+					.Cells[8].Value = txtDetail.Text;
+		}
+
 		private void grdCheese_SelectionChanged(object sender, EventArgs e) {
 			if (grdCheese.CurrentRow != null && row != grdCheese.CurrentRow.Index)
 			{	row = grdCheese.CurrentRow.Index;
@@ -185,22 +204,5 @@ namespace SirCheese {
 						else btnCommit.Enabled = true;   }   }
 				else if ((string)e.FormattedValue == "") btnCommit.Enabled = false;   }
 		}
-
-		private void txtDetail_Leave(object sender, EventArgs e) {
-			if (grdCheese.RowCount > 0)
-				grdCheese.Rows[(grdCheese.CurrentRow != null ? row : 0)]
-					.Cells[8].Value = txtDetail.Text;
-		}
-
-		private void frmCheese_Load(object sender, EventArgs e) {
-			if (Settings.Default.WindowLocation != null)
-				this.Location = Settings.Default.WindowLocation;
-		}
-
-		private void frmCheese_FormClosing(object sender, FormClosingEventArgs e) {
-			Settings.Default.WindowLocation = this.Location;
-			Settings.Default.Save();
-		}
-
 	} // class
 } // namespace
